@@ -1,23 +1,32 @@
 package com.tywh.kdterp.inventory.controller;
 
-import com.tywh.erp.bean.Condition;
-import com.tywh.erp.bean.Item;
-import com.tywh.erp.inventory.service.ItemService;
-import com.tywh.erp.inventory.service.impl.ItemServiceImpl;
+import com.tywh.kdterp.inventory.service.ItemService;
+import com.tywh.kdterp.pojo.Condition;
+import com.tywh.kdterp.pojo.Item;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class ItemController extends HttpServlet {
-    private ItemService itemService = new ItemServiceImpl();
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("utf-8");
+@Controller
+@RequestMapping("/item")
+public class ItemController {
+
+    @Autowired
+    private ItemService itemService;
+
+    @RequestMapping("/toQueryItem")
+    public String toQueryItem() {
+        return "item";
+    }
+
+    @RequestMapping("/queryItemList")
+    public String queryItemList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
         String bjbmmc = request.getParameter("bjbmmc");
         String xsbmmc = request.getParameter("xsbmmc");
         String tsfljc = request.getParameter("tsfljc");
@@ -41,6 +50,6 @@ public class ItemController extends HttpServlet {
         request.setAttribute("zkczzl", zkczzl);
         request.setAttribute("zqckc", zqckc);
         request.setAttribute("zqmkc", zqmkc);
-        request.getRequestDispatcher("/item.jsp").forward(request, response);
+        return "item";
     }
 }
